@@ -1,0 +1,38 @@
+package tests;
+
+import org.openqa.selenium.By;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import utils.WebElementUtils;
+
+public class FirstWebTest extends BaseTest {
+
+    @Test
+    public void verifyStandardUserCanNotAuthWithWrongPassword() {
+        invalidAuth("standard_user", "12345",
+                "Epic sadface: Username and password do not match any user in this service");
+    }
+
+    @Test
+    public void verifyLockedOutUserCanNotAuth() {
+        invalidAuth("locked_out_user", "secret_sauce",
+                "Epic sadface: Sorry, this user has been locked out.");
+    }
+
+    private void invalidAuth(String userName, String password, String expectedErrorMessage) {
+        WebElementUtils.setValue(WebElementUtils.findElement(By.id("user-name")), userName);
+        WebElementUtils.setValue(WebElementUtils.findElement(By.id("password")), password);
+
+        WebElementUtils.findElement(By.id("login-button")).click();
+
+        Assert.assertTrue(isExpectedErrorMessage(expectedErrorMessage),
+                "Error message should be " + expectedErrorMessage);
+    }
+
+    private boolean isExpectedErrorMessage(String expectedErrorMessage) {
+        var errorMessageLocator = By.cssSelector("h3[data-test='error']");
+
+        return WebElementUtils.checkContentOfElementText(errorMessageLocator, expectedErrorMessage);
+    }
+}
+
