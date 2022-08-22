@@ -3,18 +3,16 @@ package utils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import tests.BaseTest;
+
+import java.time.Duration;
 
 public class WebElementUtils {
 
     public static boolean checkContentOfElementText(By locator, String expectedText) {
-        if (WebElementUtils.isElementPresent(locator)) {
-            return WebElementUtils.findElement(locator)
-                    .getText()
-                    .contains(expectedText);
-        } else {
-            return false;
-        }
+        return waiting(5).until(ExpectedConditions.textToBePresentInElementLocated(locator, expectedText));
     }
 
     public static void setValue(WebElement element, String value) {
@@ -23,15 +21,15 @@ public class WebElementUtils {
     }
 
     public static WebElement findElement(By locator) {
-        if (isElementPresent(locator)) {
-            return driver().findElement(locator);
-        } else {
-            throw new AssertionError("There is no element with such locator: " + locator);
-        }
+        return waiting(5).until(ExpectedConditions.presenceOfElementLocated(locator));
     }
 
-    public static boolean isElementPresent(By locator) {
+    private static boolean isElementPresent(By locator) {
         return !(driver().findElements(locator).isEmpty());
+    }
+
+    private static WebDriverWait waiting(long timeToWait) {
+        return new WebDriverWait(BaseTest.getDriver(), Duration.ofSeconds(timeToWait));
     }
 
     private static WebDriver driver() {
