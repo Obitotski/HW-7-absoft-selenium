@@ -25,14 +25,10 @@ public class FirstWebTest extends BaseTest {
 
         WebElementUtils.findElement(By.id("login-button")).click();
 
-        Assert.assertTrue(isExpectedErrorMessage(expectedErrorMessage),
-                "Error message should be " + expectedErrorMessage);
-    }
-
-    private boolean isExpectedErrorMessage(String expectedErrorMessage) {
         var errorMessageLocator = By.cssSelector("h3[data-test='error']");
 
-        return WebElementUtils.checkContentOfElementText(errorMessageLocator, expectedErrorMessage);
+        Assert.assertTrue(WebElementUtils.checkContentOfElementText(errorMessageLocator, expectedErrorMessage),
+                "Error message should be " + expectedErrorMessage);
     }
 }
 
