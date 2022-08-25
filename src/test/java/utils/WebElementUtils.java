@@ -9,6 +9,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.BasePage;
 
 import java.time.Duration;
+import java.util.List;
 
 public class WebElementUtils {
 
@@ -17,7 +18,7 @@ public class WebElementUtils {
     }
 
     public static void setValueAndEnter(WebElement element, String value) {
-        setValue(element,value);
+        setValue(element, value);
         element.sendKeys(Keys.ENTER);
     }
 
@@ -28,6 +29,10 @@ public class WebElementUtils {
 
     public static WebElement findElement(By locator) {
         return waiting(5).until(ExpectedConditions.presenceOfElementLocated(locator));
+    }
+
+    public static List<WebElement> findElements(By locator) {
+        return waiting(5).until(ExpectedConditions.presenceOfAllElementsLocatedBy(locator));
     }
 
     public static boolean isElementPresent(By locator) {
