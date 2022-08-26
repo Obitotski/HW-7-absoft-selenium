@@ -43,7 +43,7 @@ public class WebElementUtils {
         }
     }
 
-    private static WebDriverWait waiting(long timeToWait) {
+    public static WebDriverWait waiting(long timeToWait) {
         return new WebDriverWait(BasePage.getDriver(), Duration.ofSeconds(timeToWait));
     }
 }
