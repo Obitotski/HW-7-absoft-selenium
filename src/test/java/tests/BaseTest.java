@@ -7,16 +7,13 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
+import pages.BasePage;
 
 import static java.time.Duration.ofSeconds;
 
 public abstract class BaseTest {
 
-    private static WebDriver driver;
-
-    public static WebDriver getDriver() {
-        return driver;
-    }
+    private WebDriver driver;
 
     @BeforeSuite
     public void downloadDriver() {
@@ -29,8 +26,8 @@ public abstract class BaseTest {
                 .addArguments("--window-size=1920,1080");
         driver = new ChromeDriver(options);
         driver.manage().timeouts().pageLoadTimeout(ofSeconds(5));
-        driver.manage().timeouts().implicitlyWait(ofSeconds(10));
-        driver.get("https://www.saucedemo.com/");
+        driver.manage().timeouts().implicitlyWait(ofSeconds(5));
+        BasePage.setDriver(driver);
     }
 
     @AfterMethod

@@ -2,10 +2,17 @@ package tests;
 
 import org.openqa.selenium.By;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import pages.BasePage;
 import utils.WebElementUtils;
 
 public class FirstWebTest extends BaseTest {
+
+    @BeforeMethod
+    public void openSite(){
+        BasePage.getDriver().get("https://www.saucedemo.com/");
+    }
 
     @Test
     public void verifyStandardUserCanNotAuthWithWrongPassword() {
